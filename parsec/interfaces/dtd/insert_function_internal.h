@@ -133,6 +133,7 @@ typedef struct parsec_dtd_flow_info_s {
     4 release ownership even when the flow is of type R
     */
     parsec_dtd_tile_t *tile;
+    int msg_keys[MAX_RANK_INFO*sizeof(int)*8]; /* enable user trimming, store dest rank send ID for a flow */
     int rank_sent_to[MAX_RANK_INFO]; /* currently support 1024 nodes */
 } parsec_dtd_flow_info_t;
 
@@ -180,6 +181,8 @@ struct parsec_dtd_task_s {
     parsec_thread_mempool_t     *mempool_owner;
     int32_t                      rank;
     int32_t                      flow_count;
+    int32_t                      rank_bits[MAX_RANK_INFO];
+    int send_id_storage[MAX_RANK_INFO*sizeof(int)*8]; /* enable user trimming, store dest rank send ID for a task, same for all the flows in that task */
     /* for testing PTG inserting task in DTD */
     parsec_task_t  *orig_task;
 };
